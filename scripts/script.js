@@ -32,22 +32,41 @@ function innerHtmlCountrie(countrie) {
 const urlAll = 'https://restcountries.eu/rest/v2/all';
 getCountriesAll(urlAll);
 
-
-// função de pesquisar um paises através do input
+function cleanInnerHtml() {
+    sectionCountries.innerHTML = "";
+}
+// pegar país através do nome no input
 const searchInput = document.querySelector('.search-input');
-
 async function searchCountrie(){
    if(searchInput.value.length > 1) {
-    sectionCountries.innerHTML = "";
+    cleanInnerHtml();
     sectionCountries.classList.add('active');
        const searchFetch = await fetch(`https://restcountries.eu/rest/v2/name/${searchInput.value}`);
        const searchJson = await searchFetch.json();
        createdDiv(searchJson[0]);
    } else if(searchInput.value.length <= 0){
-    sectionCountries.innerHTML = "";
+    cleanInnerHtml();
     sectionCountries.classList.remove('active');
     getCountriesAll(urlAll);
    }
 }
-
 searchInput.addEventListener('change', searchCountrie);
+
+// filtrar paises por região
+const selectRegion = document.querySelector('select');
+
+async function filterRegion(event) {
+    if(event.target.value.length > 0) {
+    sectionCountries.classList.remove('active');
+    const regionFetch = await fetch(`https://restcountries.eu/rest/v2/region/${event.target.value}`)
+    const regionJson = await regionFetch.json();
+    cleanInnerHtml();
+    regionJson.forEach(countrie => {
+        createdDiv(countrie);
+    })
+    } else if(event.target.value === "") {
+        cleanInnerHtml();
+        getCountriesAll(urlAll);
+    }
+}
+selectRegion.addEventListener('change',filterRegion)
