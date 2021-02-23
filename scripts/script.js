@@ -30,4 +30,24 @@ function innerHtmlCountrie(countrie) {
 }
 
 const urlAll = 'https://restcountries.eu/rest/v2/all';
-getCountriesAll(urlAll)
+getCountriesAll(urlAll);
+
+
+// função de pesquisar um paises através do input
+const searchInput = document.querySelector('.search-input');
+
+async function searchCountrie(){
+   if(searchInput.value.length > 1) {
+    sectionCountries.innerHTML = "";
+    sectionCountries.classList.add('active');
+       const searchFetch = await fetch(`https://restcountries.eu/rest/v2/name/${searchInput.value}`);
+       const searchJson = await searchFetch.json();
+       createdDiv(searchJson[0]);
+   } else if(searchInput.value.length <= 0){
+    sectionCountries.innerHTML = "";
+    sectionCountries.classList.remove('active');
+    getCountriesAll(urlAll);
+   }
+}
+
+searchInput.addEventListener('change', searchCountrie);
