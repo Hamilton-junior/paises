@@ -1,6 +1,6 @@
 # paises
 
-<p> Aplicação web consulmindo uma api pública para pegar dados de todos os países. </p>
+<p> Aplicação web consumindo uma api pública para pegar dados de todos os países. </p>
 <br>
 <h2 align="center"> Sobre o projeto </h2>
 
